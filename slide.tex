@@ -1,0 +1,183 @@
+\documentclass[14pt]{beamer}
+
+% font
+\usepackage{fontspec}
+\setmainfont[Ligatures=TeX]{IPAPGothic}
+\usepackage{xeCJK}
+\setCJKmainfont{IPAPGothic}
+\newfontfamily{\liberation}{Liberation Sans}
+\newfontfamily{\notosans}{Noto Sans CJK JP}
+
+% graphic
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\definecolor{mygray}{rgb}{0.1, 0.1, 0.1}
+
+% tikz
+\usepackage{tikz}
+\usetikzlibrary{automata}
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{positioning}
+\usetikzlibrary{intersections, calc}
+\usetikzlibrary{decorations}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{decorations.pathreplacing,angles,quotes}
+\usetikzlibrary{fit}
+\usetikzlibrary{math}
+\usetikzlibrary{shapes}
+\usepackage{pgfplots}
+\usepackage{bchart}
+
+% href
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=cyan,
+	filecolor=cyan,
+	urlcolor=cyan,
+	pdfnewwindow=true}
+
+% beamer
+\usepackage{bxdpx-beamer}
+\usetheme{Boadilla}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercovered{transparent}
+\setbeamertemplate{frametitle}{%
+	\vspace{0.1em}
+	\usebeamerfont{frametitle}\insertframetitle%
+	\par
+	\rule[0.5\baselineskip]{0.9\paperwidth}{0.4pt}%
+	\vspace{-0.5em}}
+\setbeamertemplate{footline}{
+	\hfill
+	\usebeamercolor[fg]{page number in head/foot}
+	\usebeamerfont{page number in head/foot}
+	{\small \insertframenumber}
+	\kern1em\vskip5pt
+}
+\setbeamercolor{footline}{fg=black,bg=black}
+
+% itemize
+\usepackage{enumitem}
+\setitemize{itemsep=0.3em}
+\setlength\leftmargini{20pt}
+\setlength\leftmarginii{20pt}
+\setlength\leftmarginiii{20pt}
+\setlength\leftmarginiv{20pt}
+\setlist[itemize,1]{label=$\color{blue}\bullet$}
+\setlist[itemize,2]{label=$\color{orange}\triangleright$}
+\setlist[itemize,3]{label=$\color{gray}\bullet$}
+\setlist[itemize,4]{label=$\color{red}\triangleright$}
+\setlist[itemize,5]{label=$\color{gray}\bullet$}
+\setlist[itemize,6]{label=$\color{red}\triangleright$}
+\setlist[itemize,7]{label=$\color{yellow}\bullet$}
+\setlist[itemize,8]{label=$\color{pink}\triangleright$}
+\setlist[itemize,9]{label=$\color{black}\bullet$}
+
+% math
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{bm}
+
+% other
+\usepackage{caption}
+\usepackage{cancel}
+\usepackage{epigraph}
+\usepackage{fancybox}
+\usepackage{here}
+\usepackage{makecell}
+\usepackage{setspace}
+\usepackage{scrextend}
+\usepackage{svg}
+\usepackage{ulem}
+\usepackage{multirow}
+
+\begin{document}
+
+\begin{frame}
+	\begin{center}
+		{\LARGE \color{cyan} トキポナのトークナイザを作ろう} \\
+		\vspace{1em}
+		{\scriptsize ミニマリズム言語のトークナイザならかんたんにできるよ}
+	\end{center}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{トークナイザを作りたい！}
+	
+	\begin{itemize}
+		\item トークナイザ
+			\begin{itemize}
+				\item 機械でテキストを扱うためには，文章を単語や記号の単位に分割しなければならない
+			\end{itemize}
+		\item むずかしい！
+		\item \alert{かんたん}な言語でなら作れる？
+	\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+	\frametitle{トキポナとは}
+
+	\begin{itemize}
+		\item みんなが知ってるミニマリズム人工言語
+			\begin{itemize}
+				\item 語彙数: \alert{120語}
+				\item 習得がかんたん　たのしい！
+				\item できる人が割と多い　たのしい！
+			\end{itemize}
+		\item ごくわずかな知らない人のために
+			\begin{itemize}
+				\item \href{https://twitter.com/notolytos/status/1409484535151042568}{\small 初級トキポナ文法簡介}
+				\item \href{https://www.youtube.com/watch?v=9C0YqTs4vB8}{\small 2分40秒で世界一簡単な言語を紹介して伝授する}
+				\item \href{https://www.youtube.com/watch?v=wIFJfAhiPlE}{\small トキポナレッスン１「トキポナってなに」}
+				\item \href{https://en.wikibooks.org/wiki/Updated\_jan\_Pije\%27s\_lessons}{\small jan Pije's lessons} 
+					{\scriptsize (\href{https://github.com/stefichjo/toki-pona/blob/master/pije.md}{注})}
+				\item \href{https://www.youtube.com/watch?v=2jRtYBaZGgQ}{\small 【日本語訳】toki pona li toki pona - トキポナソング}
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{トキポナのトークナイザを作りました}
+
+	\begin{itemize}
+		\item \href{https://github.com/nymwa/ilonimi}{github:nymwa/ilonimi}
+			\begin{itemize}
+				\item Python 3で書いた
+				\item pipが使えれば使えます
+			\end{itemize}
+		\item この資料では，このトークナイザが何をやってるか説明します
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{どのような処理を行うか？}
+\end{frame}
+
+\begin{frame}
+	\frametitle{単語のリストを作る}
+\end{frame}
+
+\begin{frame}
+	\frametitle{記号と単語を分離する}
+\end{frame}
+
+\begin{frame}
+	\frametitle{固有名詞の判定をする}
+\end{frame}
+
+\begin{frame}
+	\frametitle{固定名詞のオートマトン}
+\end{frame}
+
+\begin{frame}
+	\frametitle{nmとnnを除外する規則}
+\end{frame}
+
+\end{document}
+
